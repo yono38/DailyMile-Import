@@ -38,14 +38,14 @@ app.get('/dailymile_login', function(req, res) {
 app.get('/dailymile_import', function(req, res) {
 	var token_options = {
 		client_secret: "Unep5RDXzewyp0PsCZXqfTYrXGTGM8tdnt9trHE7",
-		'client_id': client_id,
-		'redirect_uri' : 'http://localhost:3000/dailymile_import',
+		client_id: client_id,
+		redirect_uri : 'http://localhost:3000/dailymile_import',
 		grant_type: "authorization_code",
 		code: req.query.code
 	};
 	var post_opts = {
 		host:  'api.dailymile.com',
-		port: '443',
+		port: 443,
 		path: '/oauth/token?'+querystring.stringify(token_options),
 		method: 'POST'
 	};
@@ -58,12 +58,11 @@ app.get('/dailymile_import', function(req, res) {
 		post_res.on('data', function (chunk) {
 		  mydata += chunk;
 		});
-		post_req.end();
+		post_res.on('end', function(){
+				res.end('Data: '+mydata);
+		});
 	});
-	
-	
-	res.end('Data: '+mydata);
-});
 
+});
 app.listen(3000);
 console.log("listening on http://localhost:3000");
