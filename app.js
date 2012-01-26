@@ -1,5 +1,4 @@
 var express = require('express'),
-	 OAuth = require('oauth').OAuth2,
 	 https = require('https'),
 	 querystring = require('querystring');
 
