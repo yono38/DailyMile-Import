@@ -46,7 +46,10 @@ app.get('/dailymile_import', function(req, res) {
 		host:  'api.dailymile.com',
 		port: 443,
 		path: '/oauth/token?'+querystring.stringify(token_options),
-		method: 'POST'
+		method: 'POST',
+     		 headers: {
+     		     'Content-Length': 0
+     		 }
 	};
 	console.log(post_opts.host+post_opts.path);
 	var mydata = '';
@@ -61,6 +64,8 @@ app.get('/dailymile_import', function(req, res) {
 				res.end('Data: '+mydata);
 		});
 	});
+	post_req.write("");
+	post_req.end();
 
 });
 app.listen(3000);
