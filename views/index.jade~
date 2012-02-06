@@ -1,0 +1,13 @@
+!!! 5
+html
+	head
+		title Import Dailymile Entries
+	body
+		div#json(style='display:none') 
+		h1 Welcome #{data.display name} (#{data.username})
+		h2 Let's start importing! Search for a user:
+		input(type=text)
+		button Search
+
+		
+

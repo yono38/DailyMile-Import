@@ -1,0 +1,18 @@
+{ 
+  "name": "dailymile-import", 
+  "version": "1", 
+  "description": "Simple server to allow importing of dailymile workouts from other users", 
+  "keywords": ["dailymile","running","import"], 
+  "homepage": "https://github.com/yono38/DailyMile-Import", 
+  "author": "yono38", 
+  "repository": { 
+    "type": "git", 
+    "url": "http://github.com/yono38/DailyMile-Import.git"
+  }, 
+  "dependencies": { 
+    "express": ">=2.5.5", 
+    "jade": "0.20.0",
+  }, 
+  "engines": {"node":">=0.4.0 < 0.7.0"}, 
+  "main": "./app.js"
+}

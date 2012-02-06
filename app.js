@@ -16,6 +16,7 @@ app.set('view options', {
 });
 
 // Config stuff
+// Please don't use my API key for public stuff!
 var client_id = "uZ6bjTo4H7U3Bi5hEKcEQWUbACrWeOVTPDXA4QnY",
 	auth_options = {
 		'response_type': 'code',
@@ -33,11 +34,13 @@ app.get('/', function(req, res){
 	}
 });
 
+// for debugging purposes
 app.get('/session', function(req, res){
 	console.log(req.session);
 	res.send(req.session);
 });
 
+// for import page javascript
 app.get('/client.js', function(req, res){
 	res.sendfile('client.js');
 });
@@ -54,17 +57,15 @@ app.get('/me', function(req, res){
 			  mydata += chunk;
 			});
 			me_res.on('end', function(){
-				res.end(mydata.substr(9));
+				res.render('search.jade', {data: JSON.parse(mydata.substr(9))});
 			});
 		});
 	}
 	else res.redirect("/dailymile_login");
 });
 
-
-// rebecca11245
-// jschaps1
-
+// makes a list of first 20 entries from that user
+// I might build in pagination later if I anyone asks
 app.get('/entries/:username', function(req, res){
 	if (req.session.auth && req.params.username){
 		var me_opts = {
@@ -77,15 +78,17 @@ app.get('/entries/:username', function(req, res){
 			  mydata += chunk;
 			});
 			me_res.on('end', function(){
-				res.render('index.jade', {data: JSON.parse(mydata.substring(9))});
+				if (me_res.statusCode == 404) res.send("Invalid username! <a href='/me'>Try Again</a>");
+				else res.render('index.jade', {data: JSON.parse(mydata.substring(9))});
 			});
 		});
 
 	}
 	else if (!req.session.auth) res.redirect("/dailymile_login");
-	else res.send("Invalid username!");
+	else res.send("Invalid username! <a href='/me'>Try Again</a>");
 });
 
+// internal API to post authenticated entries to dailymile API
 app.post('/add_entry', function(req, res){
 	var options = {
 		host : 'api.dailymile.com',
@@ -105,10 +108,12 @@ app.post('/add_entry', function(req, res){
 		  mydata += chunk;
 		});
 		post_res.on('end', function(){
-			console.log(mydata);
+//			console.log(mydata);
 			res.send(mydata);
 		});
 	});
+	// Because there is no universally agreed-upon specification for param strings, it is not possible to encode complex data structures using this method in a manner that works ideally across all languages supporting such input.
+	// See http://api.jquery.com/jQuery.param/
 	post_req.write(decodeURIComponent(req.body.data));
 	post_req.end();
 });
@@ -118,6 +123,8 @@ app.get('/dailymile_login', function(req, res) {
 	res.redirect("https://api.dailymile.com/oauth/authorize?"+querystring.stringify(auth_options));
 });
 
+// Should probably be called dailymile_auth
+// Authenticates the user with dailymile and gets a token
 app.get('/dailymile_import', function(req, res) {
 	var token_options = {
 		client_secret: "Unep5RDXzewyp0PsCZXqfTYrXGTGM8tdnt9trHE7",
@@ -126,6 +133,8 @@ app.get('/dailymile_import', function(req, res) {
 		grant_type: "authorization_code",
 		code: req.query.code
 	};
+	// gotta send a content-length header even though you aren't sending any data
+	// kinda weird, but I get it
 	var post_opts = {
 		host:  'api.dailymile.com',
 		port: 443,
@@ -150,6 +159,7 @@ app.get('/dailymile_import', function(req, res) {
 				res.redirect("/me");
 		});
 	});
+	// you need to write something, even empty, to send the POST
 	post_req.write("");
 	post_req.end();
 

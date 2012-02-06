@@ -1,0 +1,20 @@
+!!! 5
+html
+	head
+		title Import Dailymile Entries
+	body
+		div#json(style='display:none') 
+		h1 Welcome #{data.display_name} (#{data.username})
+		h2 Let's start importing! Search for a user:
+		input(type='text',id='search_name')
+		button#search Search
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+		script
+			$(document).ready(function() {
+					$('#search').click(function(){
+						window.location.href = '/entries/'+$('#search_name').text();
+						});
+					});		
+
+		
+

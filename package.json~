@@ -1,0 +1,20 @@
+{ 
+  "name": "tweet-server", 
+  "version": "1.2", 
+  "description": "Simple server to read tweets from artists and pull in streams of tweets about them", 
+  "keywords": ["twitter","echonest","server"], 
+  "homepage": "https://github.com/yono38/Tweet-Server", 
+  "author": "yono38", 
+  "repository": { 
+    "type": "git", 
+    "url": "http://github.com/yono38/Tweet-Server.git"
+  }, 
+  "dependencies": { 
+    "express": ">=2.5.5", 
+    "jade": "0.20.0",
+    "ntwitter": "0.2.9-2",
+    "socket.io": ">=0.8.7"
+  }, 
+  "engines": {"node":">=0.4.0 < 0.7.0"}, 
+  "main": "./app.js"
+}

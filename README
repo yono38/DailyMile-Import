@@ -2,11 +2,6 @@ Ever run with a friend, and they uploaded to dailymile but you forgot to?
 
 Well now you can keep up on dailymile too by importing their entries to your account.
 
-TODO:
-Cleanup code
-Add interface to search for users
-
-Until I do that:
-Logging in brings you to '/me', to get to the import page do '/entries/[their username]' and then check the boxes you want and click import
+Requires the express framework
 
 
