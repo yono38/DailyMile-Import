@@ -1,0 +1,23 @@
+!!! 5
+html
+	head
+		title Import Dailymile Entries
+	body
+		div#json(style='display:none') 
+		h1 Entries by #{data.entries[0].user.username}
+		ul#user_entries
+		each entry in data.entries
+			li 
+				input(type='checkbox',id=entry.id,class='entry')
+				#{entry.at} - #{entry.workout.distance.value} #{entry.workout.distance.units} (#{entry.workout.activity_type})
+		button#post_entries Import Entries
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')				
+		script(src='/client.js')
+		script $(document).ready(function() {
+					$('#post_entries').click(function(){
+						app(!{JSON.stringify(data)});
+						});
+					});
+
+		
+
